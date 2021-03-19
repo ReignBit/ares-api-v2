@@ -1,3 +1,4 @@
+https://img.shields.io/github/checks-status/ReignBit/ares-api/master?style=flat-square
 # Ares Api v2
 Database access api for services ran on ARES. Completely rebuilt from the ground up using Flask_restful and SQLAlchemy, with focus on full coverage unit-testing and modularity.
 
