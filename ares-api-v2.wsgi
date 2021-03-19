@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.insert(0, os.getcwd() + "/app")
+
 activate_this = '.venv/bin/activate'
 with open(activate_this) as file_:
     exec(file_.read(), dict(__file__=activate_this))
