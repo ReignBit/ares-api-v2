@@ -17,9 +17,6 @@ def create_app(config="app.config.ProductionConfig"):
     log.addHandler(handler)
     a = Flask(__name__)
     a.config.from_object(config)
-
-    log.info(a.config['AUTH_USERS'])
-
     db.init_app(a)
     a.register_blueprint(blueprint, url_prefix='/api/v2')
     return a

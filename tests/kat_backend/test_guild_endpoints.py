@@ -2,7 +2,7 @@ from app.__main__ import API_ROOT
 
 API_ROOT += "/guilds"
 
-headers = {"Authorization": "Basic a2F0OnRlc3Q="}
+headers = {"Authorization": "Basic dGVzdDp0ZXN0"}
 
 
 def test_get_all_guilds(client):

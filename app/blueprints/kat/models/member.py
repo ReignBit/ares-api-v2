@@ -22,7 +22,7 @@ class Member(db.Model):
         # If the json becomes unreadable then empty it
         try:
             return json.loads(self._settings)
-        except json.decoder.JSONDecodeError:
+        except (json.decoder.JSONDecodeError, TypeError):
             self._settings = {}
             return {}
 

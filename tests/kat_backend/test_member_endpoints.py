@@ -1,6 +1,6 @@
 from app.__main__ import API_ROOT
 
-headers = {"Authorization": "Basic a2F0OnRlc3Q="}
+headers = {"Authorization": "Basic dGVzdDp0ZXN0"}
 
 
 def create_guild_and_user(client):
