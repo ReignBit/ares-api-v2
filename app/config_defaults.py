@@ -29,7 +29,7 @@ class DevelopmentConfig(Config):
     AUTH_USERS = {"USERNAME": generate_password_hash("PASSWORD")}
 
 
-class TestingConfig(TestingConfig):
+class TestingConfig(Config):
     DEBUG = True
     TESTING = True
 
