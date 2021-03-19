@@ -3,6 +3,29 @@ Database access api for services ran on ARES. Completely rebuilt from the ground
 
 **Not compatible with v1 endpoints**
 
+# How to use
+## Configuration
+- Download Python 3.x and pip
+- Create a new file under `app` called `config.py`.
+- Subclass any of the existing Config classes in `app.config_defaults`.
+    - Make sure to change `SQLALCHEMY_DATABASE_URI` and `SQLALCHEMY_BINDS` to fit your environment.
+    - Also change `AUTH_USERS` to something unique.
+- Return back to the root directory and run the following commands:
+
+### Windows
+- `virtualenv .venv`
+- `.\.venv\Scripts\activate.bat`
+- `pip install -r requirements.txt`
+- `python -m app`
+
+### Linux
+- `virtualenv .venv`
+- `source ./venv/bin/activate`
+- `pip install -r requirements.txt`
+- `python -m app`
+
+
+
 <br><br>
 # Kat
 [My Discord bot Kat](https://github.com/ReignBit/discord-kat) uses these endpoints to manage user information. They should not be used externally, but are still here for documentation purposes. Access to this information may be considered in the future.
@@ -17,11 +40,11 @@ Database access api for services ran on ARES. Completely rebuilt from the ground
 ```
 | Tag    | Type    | Description                                      |
 |---     | ---     | ---                                              |
-|id      | int(18) | Unique identifier for instance of User           |
+|id*      | int(18) | Unique identifier for instance of User           |
 |birthday| int     | Birth date for the user in the format YYYY-MM-DD |
 |years   | int     | Not Used                                         |
 
-
+<br><br>
 ### <a name="guild">Guild</a>
 ```json
     {
@@ -30,15 +53,15 @@ Database access api for services ran on ARES. Completely rebuilt from the ground
             "settings": {
                 "prefix": "$"
             }
-        },
+        }
     }
 ```
 | Tag    | Type    | Description                                      |
 |---     | ---     | ---                                              |
-|id      | int(18) | Unique identifier for instance of Guild          |
+|id*      | int(18) | Unique identifier for instance of Guild          |
 |settings| dict    | Data used by Kat's modular extensions. General guild data |
 
-
+<br><br>
 ### <a name="member">Member</a>
 Can only be referenced with a reference to a Guild object.
 ```json
@@ -52,14 +75,13 @@ Can only be referenced with a reference to a Guild object.
 ```
 | Tag    | Type    | Description                                        |
 |---     | ---     | ---                                                |
-|gid     | int(18) | Unique identifier for instance of the parent Guild |
-|id      | int(18) | Unique identifier for instance of parent User      |
+|gid*     | int(18) | Unique identifier for instance of the parent Guild |
+|id*      | int(18) | Unique identifier for instance of parent User      |
 |level   | int     | Level of the user                                  |
 |xp      | int     | Total experience of the user                       |
 |settings| dict    | User specific data (Per extension)                 |
 
-
-
+<br><br>
 ## Endpoints
 
 |   Privileged   | Method | URL                    | Description                            | Return Type |
@@ -73,15 +95,14 @@ Can only be referenced with a reference to a Guild object.
 | ✔️  |  POST   | /api/v2/users              | Create a new user                      |  [User](#user)
 | ✔️   |  POST   | /api/v2/guilds             | Create a new guild                     | [Guild](#guild)
 | ✔️   |  POST   | /api/v2/guilds/members     | Create a new member in guild           | [Member](#member) 
-| ✔️  |  PATCH | /api/v2/users               | Edit a new user                        | [User](#user)
-| ✔️   |  PATCH | /api/v2/guilds              | Edit a new guild                       | [Guild](#guild)
-| ✔️   |  PATCH | /api/v2/guilds/[id]         | Edit a new member in guild             | [Member](#member) 
+| ✔️  |  PATCH | /api/v2/users               | Edit an existing user                        | [User](#user)
+| ✔️   |  PATCH | /api/v2/guilds              | Edit an existing guild                       | [Guild](#guild)
+| ✔️   |  PATCH | /api/v2/guilds/[id]         | Edit an existing member             | [Member](#member) 
 | ✔️  |  DELETE| /api/v2/users/[id]          | Delete a user                          | None
 | ✔️   |  DELETE| /api/v2/guilds/[id]         | Delete a guild                         | None
 | ✔️   |  DELETE| /api/v2/guilds/[gid]/[uid]  | Delete a member from guild             | None
 
 <br><br>
-
 # Orwell/Supervisor [WIP]
 Orwell (working title) is the service manager for ARES. Able to monitor, start, and stop services. These endpoints help orwell do it's thing.
 Again, these are all privileged endpoints, but here for documentation. I doubt these will ever be open-ended due to their purpose.
@@ -90,16 +111,16 @@ Again, these are all privileged endpoints, but here for documentation. I doubt t
 ### <a name="service">Service</a>
 ```json
     {
-        "id": string,
-        "pid": int,
-        "status": boolean,
+        "id": "game-server-2",
+        "pid": "4958",
+        "status": 1,
         
-        "directory": string,
-        "cmd": string,
-        "args": string,
+        "directory": "/opt/game/",
+        "cmd": "gamex64",
+        "args": "-server -rcon password123 -map ctf_fort",
         
-        "can_vote": boolean,
-        "keep_alive": boolean
+        "can_vote": 0,
+        "keep_alive": 0
     }
 ```
 | Tag      | Type     | Description                                         |
@@ -113,14 +134,15 @@ Again, these are all privileged endpoints, but here for documentation. I doubt t
 |can_vote  | boolean  | Used by kat. Should users be able to vote for start |
 |keep_alive| boolean  | Should this service be kept alive at all times      |
 
+<br><br>
 ### <a name="service">PublicService</a>
 
 ```json
     {
-        "id": string,
-        "status": boolean,
-        "keep_alive": boolean,
-        "can_vote": boolean
+        "id": "game-server-2",
+        "status": 1,
+        "keep_alive": 0,
+        "can_vote": 0
     }
 ```
 | Tag      | Type     | Description                                         |
@@ -130,6 +152,7 @@ Again, these are all privileged endpoints, but here for documentation. I doubt t
 |can_vote  | boolean  | Used by kat. Should users be able to vote for start |
 |keep_alive| boolean  | Should this service be kept alive at all times      |
 
+<br><br>
 ## Endpoints
 | Privileged | Method  | URL                           | Description                                  | Return Type     |
 | :---:      |---      | ---                           | ---                                          | ---             |
