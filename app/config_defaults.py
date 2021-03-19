@@ -30,7 +30,7 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    DEBUG = True
+    DEBUG = False
     TESTING = True
 
     AUTH_USERS = {"test": generate_password_hash("test")}
