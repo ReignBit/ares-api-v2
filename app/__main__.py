@@ -8,7 +8,7 @@ from flask_restful import Api, Resource
 from app.blueprints.kat.kat_backend import blueprint
 from app.blueprints.kat.models.shared import db
 from app.blueprints.kat.common.utils import generate_help
-from app.config import ProductionConfig
+
 
 API_ROOT = "/api/v2"
 
