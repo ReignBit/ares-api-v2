@@ -8,6 +8,8 @@ from app.blueprints.kat.models.shared import db
 
 API_ROOT = "/api/v2"
 
+from app.config import ProductionConfig
+print(ProductionConfig.AUTH_USERS)
 
 def create_app(config="app.config.ProductionConfig"):
     log = logging.getLogger()
@@ -15,6 +17,9 @@ def create_app(config="app.config.ProductionConfig"):
     log.addHandler(handler)
     a = Flask(__name__)
     a.config.from_object(config)
+
+    log.info(a.config['AUTH_USERS'])
+
     db.init_app(a)
     a.register_blueprint(blueprint, url_prefix='/api/v2')
     return a
