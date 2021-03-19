@@ -9,6 +9,7 @@ API_ROOT = "/api/v2"
 
 
 def create_app(config="app.config.ProductionConfig"):
+    logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
     a = Flask(__name__)
     a.config.from_object(config)
     db.init_app(a)
