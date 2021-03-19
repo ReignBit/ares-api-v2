@@ -1,25 +1,36 @@
-import logging
 import argparse
+import logging
 
-from flask import Flask
+import markdown2
+from flask import Flask, make_response, render_template
+from flask_restful import Api, Resource
 
 from app.blueprints.kat.kat_backend import blueprint
 from app.blueprints.kat.models.shared import db
+from app.blueprints.kat.common.utils import generate_help
+from app.config import ProductionConfig
 
 API_ROOT = "/api/v2"
 
-from app.config import ProductionConfig
-print(ProductionConfig.AUTH_USERS)
 
 def create_app(config="app.config.ProductionConfig"):
-    log = logging.getLogger()
-    handler = logging.FileHandler('test.log', 'w', 'utf-8') # or whatever
-    log.addHandler(handler)
     a = Flask(__name__)
     a.config.from_object(config)
     db.init_app(a)
-    a.register_blueprint(blueprint, url_prefix='/api/v2')
+    a.register_blueprint(blueprint, url_prefix=API_ROOT)
+
+    api_home = Api(a)
+    api_home.add_resource(ApiRootResource, API_ROOT, endpoint="help")
     return a
+
+
+class ApiRootResource(Resource):
+    def __init__(self):
+        super(ApiRootResource, self).__init__()
+
+    def get(self):
+        headers = {'Content-Type': 'text/html'}
+        return make_response(generate_help(), 200, headers)
 
 
 if __name__ == "__main__":

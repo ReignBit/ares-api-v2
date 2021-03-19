@@ -41,6 +41,7 @@ Database access api for services ran on ARES. Completely rebuilt from the ground
         "years": 4
     }
 ```
+
 | Tag    | Type    | Description                                      |
 |---     | ---     | ---                                              |
 |id*      | int(18) | Unique identifier for instance of User           |
@@ -59,6 +60,7 @@ Database access api for services ran on ARES. Completely rebuilt from the ground
         }
     }
 ```
+
 | Tag    | Type    | Description                                      |
 |---     | ---     | ---                                              |
 |id*      | int(18) | Unique identifier for instance of Guild          |
@@ -76,6 +78,7 @@ Can only be referenced with a reference to a Guild object.
         "settings": {}
     }
 ```
+
 | Tag    | Type    | Description                                        |
 |---     | ---     | ---                                                |
 |gid*     | int(18) | Unique identifier for instance of the parent Guild |
