@@ -1,3 +1,4 @@
+import logging
 import argparse
 
 from flask import Flask
@@ -19,6 +20,7 @@ def create_app(config="app.config.ProductionConfig"):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
+    ap.add_argument("env", type=str, choices=['prod', 'dev'])
     args = ap.parse_args()
 
     configs = {
