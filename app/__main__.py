@@ -1,3 +1,5 @@
+import argparse
+
 from flask import Flask
 
 from app.blueprints.kat.kat_backend import blueprint
@@ -15,5 +17,15 @@ def create_app(config):
 
 
 if __name__ == "__main__":
-    a = create_app("app.config.DevelopmentConfig")
+    ap = argparse.ArgumentParser()
+    ap.add_argument("env", type=str, choices=['test', 'prod', 'dev'])
+    args = ap.parse_args()
+
+    configs = {
+        'test': 'app.config_defaults.TestingConfig',
+        'dev': 'app.config.DevelopmentConfig',
+        'prod': 'app.config.ProductionConfig'
+    }
+
+    a = create_app(configs[args.env])
     a.run(debug=True, host="0.0.0.0")
