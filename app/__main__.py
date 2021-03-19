@@ -8,7 +8,7 @@ from app.blueprints.kat.models.shared import db
 API_ROOT = "/api/v2"
 
 
-def create_app(config):
+def create_app(config="app.config.ProductionConfig"):
     a = Flask(__name__)
     a.config.from_object(config)
     db.init_app(a)
@@ -18,7 +18,6 @@ def create_app(config):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("env", type=str, choices=['test', 'prod', 'dev'])
     args = ap.parse_args()
 
     configs = {
