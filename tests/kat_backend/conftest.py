@@ -6,7 +6,7 @@ from app.__main__ import create_app, db
 def client():
     # Change default testing database uri's to the dynamically created ones.
 
-    flask = create_app('app.config.TestingConfig')
+    flask = create_app('app.config_defaults.TestingConfig')
     db.init_app(flask)
     with flask.test_client() as client:
         with flask.app_context():

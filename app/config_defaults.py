@@ -29,11 +29,19 @@ class DevelopmentConfig(Config):
     AUTH_USERS = {"USERNAME": generate_password_hash("PASSWORD")}
 
 
-class TestingConfig(DevelopmentConfig):
-    """Testing config - Used for testing environments"""
-    # Subclass this and change settings to your desire
+class TestingConfig(TestingConfig):
     DEBUG = True
     TESTING = True
+
+    AUTH_USERS = {"test": generate_password_hash("test")}
+
+    # Create database in memory instead of on disk/network for testing
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
+    SQLALCHEMY_BINDS = {
+        "kat_backend": "sqlite://",
+        "supervisor_backend": "sqlite://",
+    }
+
 
 
 class ProductionConfig(Config):
