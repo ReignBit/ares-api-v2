@@ -10,31 +10,53 @@ Database access api for services ran on ARES. Completely rebuilt from the ground
 ### <a name="user">User</a>
 ```json
     {
-        "id": int(18),
-        "birthday": "YYYY-MM-DD",
-        "years": int
+        "id": 123456789010111213,
+        "birthday": "2002-04-22",
+        "years": 4
     }
 ```
+| Tag    | Type    | Description                                      |
+|---     | ---     | ---                                              |
+|id      | int(18) | Unique identifier for instance of User           |
+|birthday| int     | Birth date for the user in the format YYYY-MM-DD |
+|years   | int     | Not Used                                         |
+
 
 ### <a name="guild">Guild</a>
 ```json
     {
-        "id": int(18),
-        "settings": {},
+        "id": 123456789010111213,
+        "settings": {
+            "settings": {
+                "prefix": "$"
+            }
+        },
     }
 ```
+| Tag    | Type    | Description                                      |
+|---     | ---     | ---                                              |
+|id      | int(18) | Unique identifier for instance of Guild          |
+|settings| dict    | Data used by Kat's modular extensions. General guild data |
+
 
 ### <a name="member">Member</a>
 Can only be referenced with a reference to a Guild object.
 ```json
     {
-        "id": int(18),
-        "gid": int(18),
-        "level": int,
-        "xp": int,
+        "id": 123456789010111213,
+        "gid": 234567890101112345,
+        "level": 10,
+        "xp": 524,
         "settings": {}
     }
 ```
+| Tag    | Type    | Description                                        |
+|---     | ---     | ---                                                |
+|gid     | int(18) | Unique identifier for instance of the parent Guild |
+|id      | int(18) | Unique identifier for instance of parent User      |
+|level   | int     | Level of the user                                  |
+|xp      | int     | Total experience of the user                       |
+|settings| dict    | User specific data (Per extension)                 |
 
 
 
@@ -80,6 +102,17 @@ Again, these are all privileged endpoints, but here for documentation. I doubt t
         "keep_alive": boolean
     }
 ```
+| Tag      | Type     | Description                                         |
+|---       | ---      | ---                                                 |
+|id        | string   | Unique identifier for the Service                   |
+|pid       | int      | Process id of the running service (-1 if offline)   |
+|status    | bool     | Whether the service is currently running            |
+|directory | string   | Path to the executable/working directory            |
+|cmd       | string   | Executable name                                     |
+|args      | string   | Commandline arguments                               |
+|can_vote  | boolean  | Used by kat. Should users be able to vote for start |
+|keep_alive| boolean  | Should this service be kept alive at all times      |
+
 ### <a name="service">PublicService</a>
 
 ```json
@@ -90,6 +123,12 @@ Again, these are all privileged endpoints, but here for documentation. I doubt t
         "can_vote": boolean
     }
 ```
+| Tag      | Type     | Description                                         |
+|---       | ---      | ---                                                 |
+|id        | string   | Unique identifier for the Service                   |
+|status    | bool     | Whether the service is currently running            |
+|can_vote  | boolean  | Used by kat. Should users be able to vote for start |
+|keep_alive| boolean  | Should this service be kept alive at all times      |
 
 ## Endpoints
 | Privileged | Method  | URL                           | Description                                  | Return Type     |
