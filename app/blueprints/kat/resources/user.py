@@ -73,9 +73,13 @@ class UserResource(Resource):
         user = User.query.filter_by(id=id).first_or_404(
             description=f"No user with id `{id}`"
         )
-        user.birthday = datetime.strptime(
-            args.get("birthday", user.birthday_years), "%Y-%m-%d"
-        )
+        try:
+            user.birthday = datetime.strptime(
+                args.get("birthday", user.birthday_years), "%Y-%m-%d"
+            )
+        except TypeError:
+            user.birthday = None
+    
         user.birthday_years = args.get("years", user.birthday_years)
         db.session.commit()
         return {"message": f"Updated user `{id}`", "data": marshal(user, user_fields)}
