@@ -1,23 +1,33 @@
 import argparse
 import logging
+import threading
 
 import markdown2
 from flask import Flask, make_response, render_template
 from flask_restful import Api, Resource
 
-from app.blueprints.kat.kat_backend import blueprint
+from app.blueprints.kat.kat_backend import blueprint as kat_blueprint
+from app.blueprints.supervisor.supervisor_backend import blueprint as supervisor_blueprint
+from app.blueprints.supervisor.supervisor_backend import supervisor_thread
 from app.blueprints.kat.models.shared import db
 from app.blueprints.kat.common.utils import generate_help
 
 
 API_ROOT = "/api/v2"
 
+watchdog = threading.Thread()
 
 def create_app(config="app.config.ProductionConfig"):
+    global watchdog
     a = Flask(__name__)
     a.config.from_object(config)
     db.init_app(a)
-    a.register_blueprint(blueprint, url_prefix=API_ROOT)
+
+    # Blueprint registration
+    a.register_blueprint(kat_blueprint, url_prefix=API_ROOT)
+    a.register_blueprint(supervisor_blueprint, url_prefix=API_ROOT)
+    # watchdog = threading.Thread(target=supervisor_thread, args=(a,))
+    # watchdog.start()
 
     api_home = Api(a)
     api_home.add_resource(ApiRootResource, API_ROOT, endpoint="help")
@@ -44,5 +54,6 @@ if __name__ == "__main__":
         'prod': 'app.config.ProductionConfig'
     }
 
-    a = create_app(configs[args.env])
+    a = create_app(config=configs[args.env])
     a.run(debug=True, host="0.0.0.0")
+    watchdog.join()
