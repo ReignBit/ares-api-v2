@@ -113,3 +113,4 @@ def test_patch_member_data(client):
     assert r.status_code == 200
     print(r.json)
     assert r.json["data"]["settings"]["test"] == 1
+

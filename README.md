@@ -95,6 +95,7 @@ Can only be referenced with a reference to a Guild object.
 | ✔️  |  GET   | /api/v2/users               | Retrieve all user ids                  |  array[int]
 | ✔️  |  GET   | /api/v2/guilds               | Retrieve all guild ids                |  array[int]
 | ✔️   |  GET   | /api/v2/guilds/[gid]/members     | Retrieve all members of a guild   | array\[[Member](#member)\]
+| ✔️   |  GET   | /api/v2/guilds/[gid]/leaderboard[?limit=10]     | Retrieves the top 10 highest level member of a guild   | array\[[Member](#member)\]
 | ✔️  |  GET   | /api/v2/users/[id]          | Retrieve user information              |  [User](#user)
 | ✔️   |  GET   | /api/v2/guilds/[id]         | Retrieve guild information             | [Guild](#guild)
 | ✔️   |  GET   | /api/v2/guilds/[gid]/[uid]  | Retrieve member information from guild | [Member](#member)      

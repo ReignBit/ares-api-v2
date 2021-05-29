@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse, fields, marshal
+from flask_sqlalchemy import sqlalchemy
 
 from app.blueprints.kat.models.shared import db
 from app.blueprints.kat.models.member import Member
@@ -90,3 +91,19 @@ class MemberResource(Resource):
         db.session.delete(member)
         db.session.commit()
         return {"message": f"Deleted member `{id}`"}
+
+
+class MemberLeaderboardResource(Resource):
+    decorators = [auth.login_required]
+
+    def __init__(self):
+        super(MemberLeaderboardResource, self).__init__()
+
+    def get(self, gid):
+        parser = reqparse.RequestParser()
+        parser.add_argument('limit', type=int, help='Number of members to return')
+        args = parser.parse_args()
+
+        members = db.get_engine(bind='kat_backend').execute(
+            f"CALL TOP10({gid}, {args.get('limit', 10)})").all()
+        return {"data": [dict(member) for member in members]}

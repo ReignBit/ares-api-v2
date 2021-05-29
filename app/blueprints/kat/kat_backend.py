@@ -3,7 +3,7 @@ from flask_restful import Api
 
 from app.blueprints.kat.resources.user import UserListResource, UserResource
 from app.blueprints.kat.resources.guild import GuildListResource, GuildResource
-from app.blueprints.kat.resources.member import MemberListResource, MemberResource
+from app.blueprints.kat.resources.member import MemberListResource, MemberResource, MemberLeaderboardResource
 
 
 blueprint = Blueprint("kat_backend", __name__)
@@ -24,3 +24,6 @@ api.add_resource(
 api.add_resource(
     MemberResource, "/guilds/<int:gid>/<int:uid>", endpoint="member"
 )
+
+# Leaderboard Resource
+api.add_resource(MemberLeaderboardResource, "/guilds/<int:gid>/leaderboard", endpoint="leaderboard")
