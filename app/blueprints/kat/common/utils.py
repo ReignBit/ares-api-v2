@@ -1,5 +1,6 @@
 import markdown2
 
+import mod_wsgi
 
 def generate_help():
     output = """
@@ -19,6 +20,7 @@ def generate_help():
 
 <body>
 """
+    output += mod_wsgi.process_group
     output += markdown2.markdown_path('README.md', extras=["code-color", "tables", "fenced-code-blocks"])
     output += """
 </body>

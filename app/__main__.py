@@ -17,9 +17,17 @@ API_ROOT = "/api/v2"
 
 watchdog = threading.Thread()
 
-def create_app(config="app.config.ProductionConfig"):
+def create_app(process_group):
     global watchdog
     a = Flask(__name__)
+
+    if process_group == "api-kat":
+        config = "app.config.ProductionConfig"
+    elif process_group == "api-yumi":
+        config = "app.config.DevelopmentConfig"
+    else:
+        config = "app.config.TestingConfig"
+
     a.config.from_object(config)
     db.init_app(a)
 

@@ -1,7 +1,8 @@
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from flask import current_app as a
+
+import mod_wsgi
 
 auth = HTTPBasicAuth()
 
@@ -17,4 +18,5 @@ def verify_password(username, password):
 
 @auth.error_handler
 def unauthorized():
-    return {"message": "Unauthorized access"}, 403
+    with a.app_context():
+        return {"message": f"Unauthorized access for " + mod_wsgi.process_group}, 403
